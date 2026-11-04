@@ -8,7 +8,8 @@ add_library (libjson
 	"data.cpp"
 	"null.cpp"
 	"number.cpp"
-	"string.cpp")
+	"string.cpp"
+	"var.cpp")
 
 target_include_directories(libjson PUBLIC ".")
 

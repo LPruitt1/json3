@@ -4,3 +4,4 @@
 #include "null.hpp"
 #include "number.hpp"
 #include "string.hpp"
+#include "var.hpp"

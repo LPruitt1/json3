@@ -4,6 +4,8 @@
 #include <iostream>
 
 
+// Part 1: The Scalar Types (Boolean, Null, Number, String)
+
 TEST(DefaultConstruct, Boolean) {
 	json::Boolean b;
 	ASSERT_EQ(b.getBoolean(), false);
@@ -249,4 +251,176 @@ TEST(Eject, String) {
 	auto q = s.eject();
 	ASSERT_TRUE(q->getString() == "Hello!");
 	ASSERT_TRUE(s.getString() == "");
+}
+
+// Part 2: The Container (Var)
+
+
+TEST(VarConstruct, DefaultConstruct) {
+	json::Var v;
+	ASSERT_TRUE(v->isNull());
+}
+
+TEST(VarConstruct, ValueConstructBool) {
+	json::Var v{ std::make_unique<json::Boolean>(true) };
+	json::Var w{ std::make_unique<json::Boolean>()};
+	ASSERT_TRUE(v->isBoolean());
+	ASSERT_TRUE(w->isBoolean());
+	ASSERT_TRUE(v->getBoolean());
+	ASSERT_FALSE(w->getBoolean());
+}
+
+TEST(VarConstruct, ValueConstructNull) {
+	json::Var v{ std::make_unique<json::Null>() };
+	ASSERT_TRUE(v->isNull());
+}
+
+TEST(VarConstruct, ValueConstructNumber) {
+	json::Var v{ std::make_unique<json::Number>(3.0) };
+	ASSERT_TRUE(v->isNumber());
+	ASSERT_EQ(v->getNumber(), 3.0);
+}
+
+TEST(VarConstruct, ValueConstructString) {
+	json::Var v{ std::make_unique<json::String>("Hi Theta!") };
+	ASSERT_TRUE(v->isString());
+	ASSERT_FALSE(v->isNumber());
+	ASSERT_EQ(v->getString(), "Hi Theta!");
+}
+
+TEST(VarDereference, StarOp) {
+	json::Var v{ std::make_unique<json::Number>(3.0) };
+	ASSERT_TRUE((*v).isNumber());
+	ASSERT_FALSE((*v).isBoolean());
+	ASSERT_EQ((*v).getNumber(), 3.0);
+}
+
+TEST(VarDereference, StarOpConst) {
+	const json::Var V{ std::make_unique <json::Number>(5.0) };
+	ASSERT_TRUE((*V).isNumber());
+}
+
+TEST(VarDereference, PointOp) {
+	json::Var v{ std::make_unique<json::String>("Hi Theta!") };
+	ASSERT_TRUE(v->isString());
+	ASSERT_EQ(v->getString(), "Hi Theta!");
+}
+
+TEST(VarDereference, PointOpConst) {
+	const json::Var V{ std::make_unique<json::String>("Hi Theta!") };
+	ASSERT_TRUE(V->isString());
+	ASSERT_EQ(V->getString(), "Hi Theta!");
+}
+
+TEST(VarCopy, DefaultCopy) {
+	json::Var v;
+	json::Var w = v;
+	ASSERT_TRUE(w->isNull());
+}
+
+TEST(VarCopy, ValueConstructAndCopy) {
+	json::Var v{ std::make_unique<json::Boolean>(true) };
+	json::Var w = v;
+	ASSERT_TRUE(w->getBoolean());
+}
+
+TEST(VarMove, NumberMove) {
+	json::Var v = { std::make_unique<json::Number>(4.5) };
+	json::Var w = std::move(v);
+	ASSERT_TRUE(w->isNumber());
+	ASSERT_EQ(w->getNumber(), 4.5);
+	ASSERT_TRUE(v->isNull());
+}
+
+TEST(VarMove, StringMove) {
+	json::Var v = { std::make_unique<json::String>("Hi Theta!") };
+	json::Var w = std::move(v);
+	ASSERT_TRUE(w->isString());
+	ASSERT_EQ(w->getString(), "Hi Theta!");
+	ASSERT_TRUE(v->isNull());
+}
+
+TEST(VarConvertValue, ConvertBool) {
+	json::Var v{true};
+	ASSERT_TRUE(v->isBoolean());
+	ASSERT_TRUE(v->getBoolean());
+}
+
+TEST(VarConvertValue, ConvertNull) {
+	json::Var v{nullptr};
+	ASSERT_TRUE(v->isNull());
+}
+
+TEST(VarConvertValue, ConvertNumber) {
+	json::Var v{3.5};
+	ASSERT_TRUE(v->isNumber());
+	ASSERT_EQ(v->getNumber(), 3.5);
+}
+
+TEST(VarConvertValue, ConvertString) {
+	std::string s = "Hello!";
+	json::Var v{s};
+	ASSERT_TRUE(v->isString());
+	ASSERT_EQ(v->getString(), "Hello!");
+}
+
+TEST(VarConvertValue, ConvertConstCharStar) {
+	json::Var v{ "Hello!" };
+	ASSERT_TRUE(v->isString());
+	ASSERT_EQ(v->getString(), "Hello!");
+}
+
+TEST(VarConvertData, CopyDataObject) {
+	json::Var v = json::Number(3);
+	ASSERT_TRUE(v->isNumber());
+	ASSERT_EQ(v->getNumber(), 3);
+}
+
+TEST(VarConvertData, MoveDataObject) {
+	json::String s = "Yeah!";
+	json::Var v{ std::move(s) };
+	ASSERT_TRUE(s.isString());
+	ASSERT_TRUE(v->isString());
+	ASSERT_EQ(s.getString(), "");
+	ASSERT_EQ(v->getString(), "Yeah!");
+}
+
+TEST(VarPrint, PrintBooleanVar) {
+	json::Var v = true;
+	std::ostringstream out;
+	out << v;
+	ASSERT_EQ(out.str(), "true");
+}
+
+TEST(VarPrint, PrintNullVar) {
+	json::Var v;
+	std::ostringstream out;
+	out << v;
+	ASSERT_EQ(out.str(), "null");
+}
+
+TEST(VarPrint, PrintNumberVar) {
+	json::Var v = 3.14;
+	std::ostringstream out;
+	out << v;
+	ASSERT_EQ(out.str(), "3.14");
+}
+
+TEST(VarPrint, PrintStringVar) {
+	json::Var v = "Hi Theta!";
+	std::ostringstream out;
+	out << v;
+	ASSERT_EQ(out.str(), "\"Hi Theta!\"");
+}
+
+TEST(VarEquality, Equals) {
+	json::Var v{ 3.14 };
+	json::Var w{ 3.14 };
+	ASSERT_TRUE(v == w);
+}
+
+TEST(VarEquality, NotEquals) {
+	json::Var v{ true };
+	json::Var w{ false };
+	ASSERT_TRUE(v != w);
 }
