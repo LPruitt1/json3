@@ -130,3 +130,26 @@ bool json::Var::operator==(Var const& other) const {
 bool json::Var::operator!=(Var const& other) const {
 	return !(*this == other);
 }
+
+bool json::Var::operator==(Data const& other) const {
+	if (typeid(*_ptr) == typeid(other)) {
+		if (other.isBoolean()) {
+			if (_ptr->getBoolean() == other.getBoolean()) return true;
+			else return false;
+		}
+		else if (other.isNull()) return true;
+		else if (other.isNumber()) {
+			if (_ptr->getNumber() == other.getNumber()) return true;
+			else return false;
+		}
+		else if (other.isString()) {
+			if (_ptr->getString() == other.getString()) return true;
+			else return false;
+		}
+	}
+	else return false;
+}
+
+bool json::Var::operator!=(Data const& other) const {
+	return !(*this == other);
+}

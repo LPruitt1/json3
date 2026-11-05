@@ -41,6 +41,8 @@ namespace json {
 
 		bool operator==(Var const& other) const;
 		bool operator!=(Var const& other) const;
+		bool operator==(Data const& other) const;
+		bool operator!=(Data const& other) const;
 	};
 
 

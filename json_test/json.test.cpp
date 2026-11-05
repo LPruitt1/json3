@@ -426,14 +426,50 @@ TEST(VarPrint, PrintStringVar) {
 	ASSERT_EQ(out.str(), "\"Hi Theta!\"");
 }
 
-TEST(VarEquality, Equals) {
+TEST(VarEquality, EqualsVar) {
 	json::Var v{ 3.14 };
 	json::Var w{ 3.14 };
 	ASSERT_TRUE(v == w);
 }
 
-TEST(VarEquality, NotEquals) {
+TEST(VarEquality, NotEqualsVar) {
 	json::Var v{ true };
 	json::Var w{ false };
 	ASSERT_TRUE(v != w);
+}
+
+TEST(VarEquality, EqualsBool) {
+	json::Var v{ false };
+	bool b = false;
+	ASSERT_TRUE(v == b);
+}
+
+TEST(VarEquality, NotEqualsBool) {
+	json::Var v{ false };
+	bool b = true;
+	ASSERT_TRUE(v != b);
+}
+
+TEST(VarEquality, EqualsNumber) {
+	json::Var v{ 3.0 };
+	int n = 3;
+	ASSERT_TRUE(v == n);
+}
+
+TEST(VarEquality, NotEqualsNumber) {
+	json::Var v{ 3.5 };
+	double d = 3.44;
+	ASSERT_TRUE(v != d);
+}
+
+TEST(VarEquality, EqualsString) {
+	json::Var v{ "Hi Rome!" };
+	std::string s = "Hi Rome!";
+	ASSERT_TRUE(v == s);
+}
+
+TEST(VarEquality, NotEqualsString) {
+	json::Var v{ "Hi Rome!" };
+	std::string s = "Hi Theta!";
+	ASSERT_TRUE(v != s);
 }
