@@ -52,3 +52,7 @@ inline std::ostream& operator<<(std::ostream& out, json::Var const& v) {
 	v->print(out);
 	return out;
 }
+
+inline bool operator==(json::Data const& left, json::Var const& right) {
+	return right == left;
+}

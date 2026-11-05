@@ -473,3 +473,9 @@ TEST(VarEquality, NotEqualsString) {
 	std::string s = "Hi Theta!";
 	ASSERT_TRUE(v != s);
 }
+
+TEST(VarEquality, ReverseOrder) {
+	json::Var v{ "Hi Theta!" };
+	json::String s = "Hi Theta!";
+	ASSERT_TRUE(s == v);
+}
