@@ -370,6 +370,19 @@ TEST(VarConvertValue, ConvertConstCharStar) {
 	ASSERT_EQ(v->getString(), "Hello!");
 }
 
+TEST(VarConvertValue, ConvertInt) {
+	json::Var v{ 3 };
+	ASSERT_TRUE(v->isNumber());
+	ASSERT_EQ(v->getNumber(), 3.0);
+}
+
+TEST(VarConvertValue, ConvertShortInt) {
+	short int x = 4;
+	json::Var v{ x };
+	ASSERT_TRUE(v->isNumber());
+	ASSERT_EQ(v->getNumber(), 4.0);
+}
+
 TEST(VarConvertData, CopyDataObject) {
 	json::Var v = json::Number(3);
 	ASSERT_TRUE(v->isNumber());

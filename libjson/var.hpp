@@ -16,15 +16,13 @@ namespace json {
 
 		Var(bool const& data); // next few lines are all convert value via overloading constructor
 		Var(std::nullptr_t const& data);
-		Var(double const& data);
+		Var(double value);
 		Var(std::string const& data);
 		Var(char const* data);
 
-		
-		/*template<typename T> requires std::is_arithmetic_v<T>
-		Var::Var(T src) : Var((double)src) {
-		}*/
-		
+		template<typename T> requires std::is_arithmetic_v<T>
+		Var(T src) : Var((double)src) {
+		}
 
 		// These might need to be all four const at the end and two consts as part of the return type instead of
 		// what it currently is, which is two const at the end and zero consts as part of the return type

@@ -42,8 +42,8 @@ json::Var::Var(std::nullptr_t const& data) {
 	_ptr = std::make_unique<Null>(data);
 }
 
-json::Var::Var(double const& data) {
-	_ptr = std::make_unique<Number>(data);
+json::Var::Var(double value) {
+	_ptr = std::make_unique<Number>(value);
 }
 
 json::Var::Var(std::string const& data) {
