@@ -1,10 +1,8 @@
 #pragma once
 #include <iostream>
-#include <map>
 #include <memory>
 #include <stdexcept>
 #include <string>
-#include <vector>
 
 using std::string;
 
@@ -13,6 +11,7 @@ namespace json {
 	class TypeError : public std::runtime_error {
 	public:
 		TypeError(string const& message) : std::runtime_error(message) {
+			
 		}
 	};
 	
@@ -27,8 +26,6 @@ namespace json {
 		virtual bool isBoolean() const;
 		virtual bool isNumber() const;
 		virtual bool isString() const;
-		virtual bool isArray() const;
-		virtual bool isObject() const;
 
 		virtual bool& getBoolean();
 		virtual bool const& getBoolean() const;
