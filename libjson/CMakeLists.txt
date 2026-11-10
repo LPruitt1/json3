@@ -9,7 +9,9 @@ add_library (libjson
 	"null.cpp"
 	"number.cpp"
 	"string.cpp"
-	"var.cpp")
+	"var.cpp"
+	"array.cpp"
+	"object.cpp")
 
 target_include_directories(libjson PUBLIC ".")
 
