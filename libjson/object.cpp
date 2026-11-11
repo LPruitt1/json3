@@ -1,4 +1,5 @@
 #include "object.hpp"
+#include "jsonmanip.hpp"
 
 json::Object::Object() {
 	_map = {};
@@ -57,10 +58,19 @@ std::unique_ptr<json::Data> json::Object::eject() {
 }
 
 std::ostream& json::Object::print(std::ostream& out) const {
-	for (auto const& pair : _map) {
-		out << pair.first << pair.second;
-		// (pair.second)->print(out);
+	
+	out << '{';
+
+	for (auto const& _pair : _map) {
+		if (_pair != *(begin(_map))) {
+			out << ',';
+		}
+		out << json::json_string(_pair.first) << ":";
+		_pair.second->print(out);
 	}
+
+	out << '}';
+
 	return out;
 }
 

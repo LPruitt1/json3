@@ -663,28 +663,28 @@ TEST(DSPrint, ArrayPrintMethod) {
 	json::Array a = { true, true, 33 };
 	std::ostringstream out;
 	a.print(out);
-	ASSERT_EQ(out.str(), "truetrue33");
+	ASSERT_EQ(out.str(), "[true,true,33]");
 }
 
 TEST(DSPrint, ArrayPrintOperator) {
 	json::Array a = { true, true, 33 };
 	std::ostringstream out;
 	out << a;
-	ASSERT_EQ(out.str(), "truetrue33");
+	ASSERT_EQ(out.str(), "[true,true,33]");
 }
 
 TEST(DSPrint, ObjectPrintMethod) {
 	json::Object o = { {"one", 1}, {"two", 2} };
 	std::ostringstream out;
 	o.print(out);
-	ASSERT_EQ(out.str(), "one1two2");
+	ASSERT_EQ(out.str(), "{\"one\":1,\"two\":2}");
 }
 
 TEST(DSPrint, ObjectPrintOperator) {
 	json::Object o = { {"one", 1}, {"two", 2} };
 	std::ostringstream out;
 	out << o;
-	ASSERT_EQ(out.str(), "one1two2");
+	ASSERT_EQ(out.str(), "{\"one\":1,\"two\":2}");
 }
 
 TEST(DSEquals, ArrayEqualsMethod) {

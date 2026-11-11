@@ -77,9 +77,16 @@ std::unique_ptr<json::Data> json::Array::eject() {
 }
 
 std::ostream& json::Array::print(std::ostream& out) const {
-	for (Var const& thing : _array) {
-		thing->print(out);
+
+	out << '[';
+	for (int i = 0; i < _array.size(); ++i) {
+		if (i > 0) {
+			out << ',';
+		}
+		(_array[i])->print(out); 
 	}
+	out << ']';
+
 	return out;
 }
 
