@@ -12,6 +12,22 @@ bool json::Null::isNull() const {
 	return true;
 }
 
+std::map<string, json::Var>& json::Null::getObject() {
+	throw json::TypeError("Wrong data type!");
+}
+
+std::map<string, json::Var> const& json::Null::getObject() const {
+	throw json::TypeError("Wrong data type!");
+}
+
+std::vector<json::Var>& json::Null::getArray() {
+	throw json::TypeError("Wrong data type!");
+}
+
+std::vector<json::Var> const& json::Null::getArray() const {
+	throw json::TypeError("Wrong data type!");
+}
+
 std::ostream& json::Null::print(std::ostream& out) const {
 	out << "null";
 	return out;
