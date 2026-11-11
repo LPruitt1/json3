@@ -21,6 +21,22 @@ double const& json::Number::getNumber() const {
 	return _value;
 }
 
+std::map<string, json::Var>& json::Number::getObject() {
+	throw json::TypeError("Wrong data type!");
+}
+
+std::map<string, json::Var> const& json::Number::getObject() const {
+	throw json::TypeError("Wrong data type!");
+}
+
+std::vector<json::Var>& json::Number::getArray() {
+	throw json::TypeError("Wrong data type!");
+}
+
+std::vector<json::Var> const& json::Number::getArray() const {
+	throw json::TypeError("Wrong data type!");
+}
+
 std::ostream& json::Number::print(std::ostream& out) const {
 	out << json::json_number(_value);
 	return out;

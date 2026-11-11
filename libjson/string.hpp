@@ -1,5 +1,6 @@
 #pragma once
 #include "data.hpp"
+#include "var.hpp"
 
 namespace json {
 
@@ -14,6 +15,11 @@ namespace json {
 		bool isString() const override;
 		string& getString() override;
 		string const& getString() const override;
+
+		std::vector<Var>& getArray();
+		std::vector<Var> const& getArray() const;
+		std::map<string, Var>& getObject();
+		std::map<string, Var> const& getObject() const;
 
 		std::ostream& print(std::ostream& out) const override;
 		bool equals(Data const& data) const override;

@@ -23,6 +23,14 @@ bool json::Data::isString() const {
 	return false;
 }
 
+bool json::Data::isArray() const {
+	return false;
+}
+
+bool json::Data::isObject() const {
+	return false;
+}
+
 bool& json::Data::getBoolean() {
 	throw json::TypeError("Wrong data type!");
 }

@@ -2,6 +2,7 @@
 #include "json.hpp"
 #include <gtest/gtest.h>
 #include <iostream>
+#include <vector>
 
 
 // Part 1: The Scalar Types (Boolean, Null, Number, String)
@@ -478,4 +479,282 @@ TEST(VarEquality, ReverseOrder) {
 	json::Var v{ "Hi Theta!" };
 	json::String s = "Hi Theta!";
 	ASSERT_TRUE(s == v);
+}
+
+// Part 3: The Application (Array & Object)
+
+
+TEST(DSDefaultConstruct, ArrayDefaultConstruct) {
+	json::Array a;
+	ASSERT_EQ((a.getArray()).size(), 0);
+}
+
+TEST(DSDefaultConstruct, ObjectDefaultConstruct) {
+	json::Object o;
+	ASSERT_EQ((o.getObject()).size(), 0);
+}
+
+TEST(DSValueConstruct, ArrayVCSize) {
+	std::vector<json::Var> v = { 1, 2, 3, "yeah!" };
+	json::Array a = v;
+	ASSERT_EQ((a.getArray()).size(), 4);
+}
+
+TEST(DSValueConstruct, ArrayVCElements) {
+	std::vector<json::Var> v = { 1, 2, 3, "yeah!" };
+	json::Array a = v;
+	ASSERT_EQ((a.getArray())[0], 1);
+	ASSERT_EQ((a.getArray())[1], 2);
+	ASSERT_EQ((a.getArray())[2], 3);
+	ASSERT_EQ((a.getArray())[3], "yeah!");
+}
+
+TEST(DSValueConstruct, ObjectVCSize) {
+	std::map<string, json::Var> m = { {"one", 1}, {"two", 2}, {"red", "fish"}, {"blue", "fish"} };
+	json::Object o = m;
+	ASSERT_EQ((o.getObject()).size(), 4);
+}
+
+TEST(DSValueConstruct, ObjectVCElements) {
+	std::map<string, json::Var> m = { {"one", 1}, {"two", 2}, {"red", "fish"}, {"blue", "fish"} };
+	json::Object o = m;
+	ASSERT_EQ((o.getObject())["one"], 1);
+	ASSERT_EQ((o.getObject())["two"], 2);
+	ASSERT_EQ((o.getObject())["red"], "fish");
+	ASSERT_EQ((o.getObject())["blue"], "fish");
+
+}
+
+TEST(DSInitializerList, ArrayILSize) {
+	json::Array a = { 3, "abc", true, nullptr };
+	ASSERT_EQ((a.getArray()).size(), 4);
+}
+
+TEST(DSInitializerList, ArrayILElements) {
+	json::Array a = { 3, "abc", true, nullptr };
+	ASSERT_EQ((a.getArray())[0], 3);
+	ASSERT_EQ((a.getArray())[1], "abc");
+	ASSERT_EQ((a.getArray())[2], true);
+	ASSERT_EQ((a.getArray())[3], nullptr);
+}
+
+TEST(DSInitializerList, ObjectILSize) {
+	json::Object o = { {"a", 3}, {"b", "abc"}, {"c", true}, {"d", nullptr} };
+	ASSERT_EQ((o.getObject()).size(), 4);
+}
+
+TEST(DSInitializerList, ObjectILElements) {
+	json::Object o = { {"a", 3}, {"b", "abc"}, {"c", true}, {"d", nullptr} };
+	ASSERT_EQ((o.getObject())["a"], 3);
+	ASSERT_EQ((o.getObject())["b"], "abc");
+	ASSERT_EQ((o.getObject())["c"], true);
+	ASSERT_EQ((o.getObject())["d"], nullptr);
+}
+
+TEST(DSTypeIdentifiers, ArrayIsArray) {
+	json::Array a;
+	ASSERT_TRUE(a.isArray());
+}
+
+TEST(DSTypeIdentifiers, NumberNotArray) {
+	json::Number n;
+	ASSERT_FALSE(n.isArray());
+}
+
+TEST(DSTypeIdentifiers, ArrayNotOthers) {
+	json::Array a;
+	ASSERT_FALSE(a.isBoolean());
+	ASSERT_FALSE(a.isNull());
+	ASSERT_FALSE(a.isNumber());
+	ASSERT_FALSE(a.isString());
+	ASSERT_FALSE(a.isObject());
+}
+
+TEST(DSTypeIdentifiers, ObjectIsObject) {
+	json::Object o;
+	ASSERT_TRUE(o.isObject());
+}
+
+TEST(DSTypeIdentifiers, StringNotObject) {
+	json::String s;
+	ASSERT_FALSE(s.isObject());
+}
+
+TEST(DSTypeIdentifiers, ObjectNotOthers) {
+	json::Object o;
+	ASSERT_FALSE(o.isBoolean());
+	ASSERT_FALSE(o.isNull());
+	ASSERT_FALSE(o.isNumber());
+	ASSERT_FALSE(o.isString());
+	ASSERT_FALSE(o.isArray());
+}
+
+TEST(DSGetValue, ArrayGetter) {
+	json::Array a = { 1, 2, "bro" };
+	json::Array b = a.getArray();
+	ASSERT_EQ(a, b);
+}
+
+TEST(DSGetValue, ArrayElementGetter) {
+	json::Array a = { true, true, false };
+	ASSERT_EQ((a.getArray())[0], (a.getArray())[1]);
+}
+
+TEST(DSGetValue, ObjectGetter) {
+	json::Object o = { {"red", true}, {"blue", false}, {"green", 255} };
+	json::Object p = o;
+	ASSERT_EQ(o, p);
+}
+
+TEST(DSGetValue, ObjectElementGetter) {
+	json::Object o = { {"red", true}, {"blue", false}, {"green", 255} };
+	ASSERT_EQ((o.getObject())["red"], true);
+	ASSERT_EQ((o.getObject())["blue"], false);
+	ASSERT_EQ((o.getObject())["green"], 255);
+}
+
+TEST(DSSetValue, ArraySetter) {
+	json::Array a = { 1, 2, 3, "steel!" };
+	ASSERT_EQ((a.getArray()).size(), 4);
+
+	a.getArray() = { 1, 2, 4 };
+
+	ASSERT_EQ((a.getArray()).size(), 3);
+	ASSERT_EQ((a.getArray())[2], 4);
+}
+
+TEST(DSSetValue, ArrayElementSetter) {
+	json::Array a = { true, true, "fish" };
+	ASSERT_EQ((a.getArray())[1], true);
+
+	(a.getArray())[1] = false;
+	ASSERT_EQ((a.getArray())[1], false);
+
+	(a.getArray())[0] = 3;
+	ASSERT_EQ((a.getArray())[0], 3);
+}
+
+TEST(DSSetValue, ObjectSetter) {
+	json::Object o;
+	ASSERT_EQ((o.getObject()).size(), 0);
+
+	o.getObject() = { {"string", "a"}, {"number", 2} };
+
+	ASSERT_EQ((o.getObject()).size(), 2);
+	ASSERT_EQ((o.getObject())["string"], "a");
+	ASSERT_EQ((o.getObject())["number"], 2);
+}
+
+TEST(DSSetValue, ObjectElementSetter) {
+	json::Object o = { {"string", "a"}, {"number", 2} };
+	ASSERT_EQ((o.getObject())["string"], "a");
+
+	(o.getObject())["string"] = "b";
+	ASSERT_EQ((o.getObject())["string"], "b");
+
+	(o.getObject())["string"] = false;
+	ASSERT_EQ((o.getObject())["string"], false);
+
+	(o.getObject())["number"] = 55.45;
+	ASSERT_EQ((o.getObject())["number"], 55.45);
+}
+
+TEST(DSPrint, ArrayPrintMethod) {
+	json::Array a = { true, true, 33 };
+	std::ostringstream out;
+	a.print(out);
+	ASSERT_EQ(out.str(), "truetrue33");
+}
+
+TEST(DSPrint, ArrayPrintOperator) {
+	json::Array a = { true, true, 33 };
+	std::ostringstream out;
+	out << a;
+	ASSERT_EQ(out.str(), "truetrue33");
+}
+
+TEST(DSPrint, ObjectPrintMethod) {
+	json::Object o = { {"one", 1}, {"two", 2} };
+	std::ostringstream out;
+	o.print(out);
+	ASSERT_EQ(out.str(), "one1two2");
+}
+
+TEST(DSPrint, ObjectPrintOperator) {
+	json::Object o = { {"one", 1}, {"two", 2} };
+	std::ostringstream out;
+	out << o;
+	ASSERT_EQ(out.str(), "one1two2");
+}
+
+TEST(DSEquals, ArrayEqualsMethod) {
+	json::Array a = { true, true, 33 };
+	json::Array b = { true, true, 33 };
+	json::Number n = 33;
+	ASSERT_TRUE(a.equals(b));
+	ASSERT_TRUE(b.equals(a));
+	ASSERT_FALSE(a.equals(n));
+	ASSERT_FALSE(b.equals(n));
+}
+
+TEST(DSEquals, ArrayEqualsOperator) {
+	json::Array a = { 1, 2, "skip a few", 99, 100 };
+	json::Array b = { 1, 2, "skip a few", 99, 100 };
+	ASSERT_TRUE(a == b);
+}
+
+TEST(DSEquals, ArrayUnequalsOperator) {
+	json::Array a = { 1, 2, 3, "yeah" };
+	json::Array b = { 1, 2, 4, "yeah" };
+	ASSERT_TRUE(a != b);
+}
+
+TEST(DSEquals, ObjectEqualsMethod) {
+	json::Object o = { {"1", 1}, {"2", 2}, {"3", 3} };
+	json::Object p = { {"1", 1}, {"2", 2}, {"3", 3} };
+	json::Object q = { {"4", 4}, {"5", 5}, {"6", 6} };
+	ASSERT_TRUE(o.equals(p));
+	ASSERT_TRUE(p.equals(o));
+	ASSERT_FALSE(o.equals(q));
+	ASSERT_FALSE(p.equals(q));
+	ASSERT_FALSE(q.equals(o));
+	ASSERT_FALSE(q.equals(p));
+}
+
+TEST(DSEquals, ObjectEqualsOperator) {
+	json::Object o = { {"1", 1}, {"2", 2}, {"3", 3} };
+	json::Object p = { {"1", 1}, {"2", 2}, {"3", 3} };
+	ASSERT_TRUE(o == p);
+}
+
+TEST(DSEquals, ObjectUnequalsOperator) {
+	json::Object o = { {"1", 1}, {"2", 2}, {"3", 3} };
+	json::Object p = { {"4", 4}, {"5", 5}, {"6", 6} };
+	ASSERT_TRUE(o != p);
+}
+
+TEST(DSClone, ArrayCopy) {
+	json::Array a = { 1, 2, 99, "1999", nullptr, true };
+	auto ptr = a.clone();
+	ASSERT_TRUE(*ptr == a);
+}
+
+TEST(DSClone, ArrayMove) {
+	json::Array a = { 1, 2, 99, "1999", nullptr, true };
+	auto ptr = a.eject();
+	ASSERT_FALSE(*ptr == a);
+	ASSERT_EQ((a.getArray()).size(), 0);
+}
+
+TEST(DSClone, ObjectCopy) {
+	json::Object o = { {"one", 1}, {"two", 2} };
+	auto ptr = o.clone();
+	ASSERT_TRUE(*ptr == o);
+}
+
+TEST(DSClone, ObjectMove) {
+	json::Object o = { {"one", 1}, {"two", 2} };
+	auto ptr = o.eject();
+	ASSERT_FALSE(*ptr == o);
+	ASSERT_EQ((o.getObject()).size(), 0);
 }

@@ -5,3 +5,5 @@
 #include "number.hpp"
 #include "string.hpp"
 #include "var.hpp"
+#include "array.hpp"
+#include "object.hpp"
