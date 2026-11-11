@@ -25,22 +25,6 @@ string const& json::String::getString() const {
 	return _value;
 }
 
-std::map<string, json::Var>& json::String::getObject() {
-	throw json::TypeError("Wrong data type!");
-}
-
-std::map<string, json::Var> const& json::String::getObject() const {
-	throw json::TypeError("Wrong data type!");
-}
-
-std::vector<json::Var>& json::String::getArray() {
-	throw json::TypeError("Wrong data type!");
-}
-
-std::vector<json::Var> const& json::String::getArray() const {
-	throw json::TypeError("Wrong data type!");
-}
-
 std::ostream& json::String::print(std::ostream& out) const {
 	out << json::json_string(_value);
 	return out;
