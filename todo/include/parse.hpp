@@ -109,7 +109,8 @@ private:
 
   json::Var parseObject() {
     expect('{');
-    std::map<std::string, json::Var> result; // "json::Var" here was "jason::Var"
+    // std::map<std::string, json::Var> result; // "json::Var" here was "jason::Var"
+    json::Object result;
     skipWhitespace();
     if (consume('}')) return result;
     do {
@@ -117,7 +118,8 @@ private:
       std::string key = parseString();
       skipWhitespace();
       expect(':');
-      result.insert_or_assign(std::move(key), parseValue());
+      // result.insert_or_assign(std::move(key), parseValue());
+      result.getObject().insert_or_assign(std::move(key), parseValue());
     } while (consume(','));
     expect('}');
     return result;
@@ -125,11 +127,13 @@ private:
 
   json::Var parseArray() {
     expect('[');
-    std::vector<json::Var> result;
+    // std::vector<json::Var> result;
+    json::Array result;
     skipWhitespace();
     if (consume(']')) return result;
     do {
-      result.push_back(parseValue());
+      // result.push_back(parseValue());
+      result.getArray().push_back(parseValue());
     } while (consume(','));
     expect(']');
     return result;
