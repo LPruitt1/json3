@@ -39,14 +39,6 @@ json::Var const& json::Object::at(string const& key) const {
 	return _map.at(key);
 }
 
-std::vector<json::Var>& json::Object::getArray() {
-	throw json::TypeError("Wrong data type!");
-}
-
-std::vector<json::Var> const& json::Object::getArray() const {
-	throw json::TypeError("Wrong data type!");
-}
-
 std::unique_ptr<json::Data> json::Object::clone() const {
 	std::unique_ptr<Object> pointer = std::make_unique<Object>(*this);
 	return pointer;

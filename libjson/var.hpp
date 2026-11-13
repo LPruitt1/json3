@@ -19,6 +19,8 @@ namespace json {
 		Var(double value);
 		Var(std::string const& data);
 		Var(char const* data);
+		Var(std::vector<Var> const& data);
+		Var(std::map<string, Var> const& data);
 
 		template<typename T> requires std::is_arithmetic_v<T>
 		Var(T src) : Var((double)src) {

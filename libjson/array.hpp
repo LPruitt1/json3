@@ -19,10 +19,8 @@ namespace json {
 		Array(std::initializer_list<Var> data);
 
 		bool isArray() const override;
-		std::vector<Var>& getArray();
-		std::vector<Var> const& getArray() const;
-		std::map<string, Var>& getObject();
-		std::map<string, Var> const& getObject() const;
+		std::vector<Var>& getArray() override;
+		std::vector<Var> const& getArray() const override;
 
 		Var& operator[](int i);
 		Var const& operator[](int i) const;

@@ -55,6 +55,14 @@ json::Var::Var(char const* data) {
 	_ptr = std::make_unique<String>(data);
 }
 
+json::Var::Var(std::vector<json::Var> const& data) {
+	_ptr = std::make_unique<Array>(data);
+}
+
+json::Var::Var(std::map<string, json::Var> const& data) {
+	_ptr = std::make_unique<Object>(data);
+}
+
 json::Data& json::Var::operator*() {
 	return *_ptr;
 }

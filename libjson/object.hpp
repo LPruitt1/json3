@@ -18,10 +18,8 @@ namespace json {
 		Object(std::initializer_list<std::pair<std::string, Var>> data);
 
 		bool isObject() const override;
-		std::map<string, Var>& getObject();
-		std::map<string, Var> const& getObject() const;
-		std::vector<Var>& getArray();
-		std::vector<Var> const& getArray() const;
+		std::map<string, Var>& getObject() override;
+		std::map<string, Var> const& getObject() const override;
 
 		Var& operator[](string const& key);
 		Var& at(string const& key);

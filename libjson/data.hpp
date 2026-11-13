@@ -16,6 +16,7 @@ namespace json {
 		}
 	};
 	
+	class Var;
 
 	class Data {
 	protected:
@@ -36,6 +37,10 @@ namespace json {
 		virtual double const& getNumber() const;
 		virtual string& getString();
 		virtual string const& getString() const;
+		virtual std::vector<Var>& getArray();
+		virtual std::vector<Var> const& getArray() const;
+		virtual std::map<string, Var>& getObject();
+		virtual std::map<string, Var> const& getObject() const;
 		
 		virtual std::ostream& print(std::ostream& out) const = 0;
 		virtual bool equals(Data const& data) const = 0;

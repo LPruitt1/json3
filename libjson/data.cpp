@@ -55,6 +55,22 @@ std::string const& json::Data::getString() const {
 	throw json::TypeError("Wrong data type!");
 }
 
+std::vector<json::Var>& json::Data::getArray() {
+	throw json::TypeError("Wrong data type!");
+}
+
+std::vector<json::Var> const& json::Data::getArray() const {
+	throw json::TypeError("Wrong data type!");
+}
+
+std::map<string, json::Var>& json::Data::getObject() {
+	throw json::TypeError("Wrong data type!");
+}
+
+std::map<string, json::Var> const& json::Data::getObject() const {
+	throw json::TypeError("Wrong data type!");
+}
+
 std::unique_ptr<json::Data> json::Data::eject() {
 	return this->clone();
 }
