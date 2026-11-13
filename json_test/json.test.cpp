@@ -254,8 +254,8 @@ TEST(Eject, String) {
 	ASSERT_TRUE(s.getString() == "");
 }
 
-// Part 2: The Container (Var)
 
+// Part 2: The Container (Var)
 
 TEST(VarConstruct, DefaultConstruct) {
 	json::Var v;

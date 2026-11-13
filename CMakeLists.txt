@@ -15,4 +15,4 @@ project ("json")
 # Include sub-projects.
 add_subdirectory ("libjson")
 add_subdirectory ("json_test")
-add_subdirectory ("final")
+add_subdirectory ("todo")
